@@ -1,5 +1,4 @@
 var jwt = require('jsonwebtoken');  // JWT 簽名和驗證
-var config = require('../config');
 let accounts = require('./accounts.controller')
  
 module.exports = {

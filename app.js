@@ -2,7 +2,6 @@ var bodyparser = require('body-parser');    // 解析 HTTP 請求主體的中介
 var express = require('express');
 var cors = require('cors');                 // 跨來源資源共用 (允許不同網域的 HTTP 請求)
  
-var config = require('./config');
 var oauth2Token = require('./routes/oauth2-token');
 var tokenVerify = require('./routes/token-verify');
 var accounts = require('./routes/accounts');
