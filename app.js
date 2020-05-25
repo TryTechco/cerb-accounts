@@ -19,8 +19,6 @@ connection.once('open', () => {
 var app = express();
  
 app.use(cors());
-
-app.use('/', () => {return "ssss"});
  
 // 使用 bodyparser.json() 將 HTTP 請求方法 POST、DELETE、PUT 和 PATCH，放在 HTTP 主體 (body) 發送的參數存放在 req.body
 app.use(bodyparser.urlencoded({ extended: false }));
@@ -31,7 +29,7 @@ app.use('/register', register);
 app.use('/oauth2/token', oauth2Token);
  
 // 不須 token 即可訪問的 Web API 須定義在此上面，通常登入頁面 (此例為登入驗證取得 token 頁面的 /auth2/token)
-// app.use(tokenVerify);
+app.use(tokenVerify);
  
 app.use('/accounts', accounts);
  
