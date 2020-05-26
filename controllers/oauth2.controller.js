@@ -1,4 +1,5 @@
 var jwt = require('jsonwebtoken');  // JWT 簽名和驗證
+var config = require('../config');
 let accounts = require('./accounts.controller')
  
 module.exports = {
@@ -15,16 +16,17 @@ module.exports = {
         };
  
         // 產生 JWT
-        let token = jwt.sign(payload, process.env.secret, {
+        let token = jwt.sign(payload, config.secret, {
             algorithm: 'HS256',
-            expiresIn: process.env.increaseTime + 's'  // JWT 的到期時間 (當前 UNIX 時間戳 + 設定的時間)。必須加上時間單位，否則預設為 ms (毫秒)
+            expiresIn: config.increaseTime + 's'  // JWT 的到期時間 (當前 UNIX 時間戳 + 設定的時間)。必須加上時間單位，否則預設為 ms (毫秒)
         })
                  
         // JSON 格式符合 OAuth 2.0 標準，除自訂 info 屬性是為了讓前端取得額外資訊 (例如使用者名稱)，
         return callback({
+            status: 1,
             access_token: token,
             token_type: 'bearer',
-            expires_in: (Date.parse(new Date()) / 1000) + process.env.increaseTime,    // UNIX 時間戳 + config.increaseTime
+            expires_in: (Date.parse(new Date()) / 1000) + config.increaseTime,    // UNIX 時間戳 + config.increaseTime
             scope: req.results[0].role,
             info: {
                 username: req.results[0].username
@@ -40,7 +42,7 @@ module.exports = {
         }
      
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] == 'Bearer') {
-            jwt.verify(req.headers.authorization.split(' ')[1], process.env.secret, function (err, decoded) {
+            jwt.verify(req.headers.authorization.split(' ')[1], config.secret, function (err, decoded) {
                 if (err) {
                     res.customStatus = 400;
  

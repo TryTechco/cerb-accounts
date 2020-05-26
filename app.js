@@ -2,6 +2,7 @@ var bodyparser = require('body-parser');    // 解析 HTTP 請求主體的中介
 var express = require('express');
 var cors = require('cors');                 // 跨來源資源共用 (允許不同網域的 HTTP 請求)
  
+var config = require('./config');
 var oauth2Token = require('./routes/oauth2-token');
 var tokenVerify = require('./routes/token-verify');
 var accounts = require('./routes/accounts');
@@ -9,7 +10,7 @@ let register = require('./routes/register');
 
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.ATLAS_URI, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect(config.uri, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
@@ -32,6 +33,6 @@ app.use(tokenVerify);
  
 app.use('/accounts', accounts);
  
-app.listen(process.env.PORT, function () {
-    console.log('app listening on port ' + process.env.PORT + '!');
+app.listen(config.port, function () {
+    console.log('app listening on port ' + config.port + '!');
 });
