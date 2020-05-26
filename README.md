@@ -1,4 +1,4 @@
-# accounts-auth
+# cerb-accounts-auth
 Accounts management for REST.
 
 ## Features
@@ -12,6 +12,8 @@ Accounts management for REST.
 const accountSchema = new Schema({
     username: {type: String, require: true},
     password: {type: String, require: true},
+    studentId: {type: String, require: true},
+    studentName: {type: String, require: true},
     role: {type: String, require: true}, // To control access
     },
     { timestamps: true }
@@ -37,3 +39,8 @@ increaseTime={increase seconds}
 ```
 npm start
 ```
+### Login
+The url of login `POST` request is `{{schema}}://{{host}}/oauth2/token`. The `Content-Type` in the header of this request needs to be altered to `application/x-www-form-urlencoded`. The `grant_type` of OAuth is `password` in this example. Thus, the http body is `grant_type=password&username={username}&password={password}`. As the user finishes login, the `access_token` will return.
+
+### Accounts management
+The person whose role is `admin` can implement different funtions to manage accounts, like `add`, `put`, or `delete`. 
